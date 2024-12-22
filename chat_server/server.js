@@ -11,7 +11,7 @@ const server=http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-      origin: "*" ,
+      origin: "http://localhost:5173" ,
       methods: ["GET", "POST"],
  
 
@@ -30,7 +30,7 @@ const io = new Server(server, {
 
   
   
-    socket.on("disconnect", () => {
+    socket.on("disconnect", ()=> {
       console.log("A user disconnected:", socket.id);
     });
   });
@@ -38,6 +38,8 @@ const port=process.env.PORT || 3000
 server.listen(port,()=>{
     console.log(`server is running on port ${port}`)
 })
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "dist")));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
